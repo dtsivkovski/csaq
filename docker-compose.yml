@@ -1,10 +1,10 @@
 version: '3'
 services:
   web:
-    image: java_springv1
+    image: csaqbackend
     build: .
     ports:
-      - "8085:8085"
+      - "8668:8668"
     volumes:
       - persistent_volume:/app/volumes
     restart: unless-stopped
