@@ -4,7 +4,7 @@ public class User extends Generics {
 	// Class data
 	public static KeyTypes key = KeyType.title;  // static initializer
 	public static void setOrder(KeyTypes key) { User.key = key; }
-	public enum KeyType implements KeyTypes {title, name, age, color}
+	public enum KeyType implements KeyTypes {title, uid, password, name, dob}
 
 	// Instance data
     private final String uid;  // user / person id
@@ -54,6 +54,7 @@ public class User extends Generics {
 	public static User[] Users() {
 		return new User[]{
 				new User("100", "Password1234", "Krish", 101906),
+				new User("120", "lol1234", "Daniel", 031505)
 		};
 	}
 	

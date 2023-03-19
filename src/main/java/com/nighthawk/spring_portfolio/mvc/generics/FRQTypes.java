@@ -4,7 +4,7 @@ public class FRQTypes extends Generics {
 	// Class data
 	public static KeyTypes key = KeyType.title;  // static initializer
 	public static void setOrder(KeyTypes key) { FRQTypes.key = key; }
-	public enum KeyType implements KeyTypes {title, name, age, color}
+	public enum KeyType implements KeyTypes {title, name, year, qnum, description}
 
 	// Instance data
 	private final String name;
@@ -42,13 +42,14 @@ public class FRQTypes extends Generics {
 		String output="";
 		if (KeyType.name.equals(this.getKey())) {
 			output += this.name;
-		} else if (KeyType.age.equals(this.getKey())) {
-			output += "00" + this.age;
-			output = output.substring(output.length() - 2);
-		} else if (KeyType.color.equals(this.getKey())) {
-			output += this.color;
+		} else if (KeyType.year.equals(this.getKey())) {
+			output += this.year;
+		} else if (KeyType.qnum.equals(this.getKey())) {
+			output += this.qnum;
+		} else if (KeyType.description.equals(this.getKey())) {
+			output += this.description;
 		} else {
-			output += super.getType() + ": " + this.name + ", " + this.color + ", " + this.age;
+			output += super.getType() + ": " + this.name + ", " + this.year + ", " + this.qnum + ", " + this.description;
 		}
 		return output;
 		
