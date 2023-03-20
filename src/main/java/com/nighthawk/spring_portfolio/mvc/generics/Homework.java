@@ -67,7 +67,7 @@ public class Homework extends Generics {
 		User.print(objs);
 
 		// print name only
-		User.setOrder(KeyType.);
+		User.setOrder(KeyType.title);
 		User.print(objs);
 	}
 
