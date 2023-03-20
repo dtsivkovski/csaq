@@ -8,7 +8,7 @@ public class UserInterests extends Generics {
     }
 
     public enum KeyType implements KeyTypes {
-        title, interest1, interest2, interest3
+        title,uid, interest1, interest2, interest3
     }
 
     // Instance data
