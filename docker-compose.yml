@@ -4,7 +4,7 @@ services:
     image: csaqbackend
     build: .
     ports:
-      - "8668:8668"
+      - "8668:8085"
     volumes:
       - persistent_volume:/app/volumes
     restart: unless-stopped
