@@ -49,7 +49,7 @@ public class FRQTypes extends Generics {
 		} else if (KeyType.description.equals(this.getKey())) {
 			output += this.description;
 		} else {
-			output += super.getType() + ": " + this.name + ", " + this.year + ", " + this.qnum + ", " + this.description;
+			output += super.getType() + ": " + this.name + ", " + this.year + ", #" + this.qnum + ", Description: '" + this.description + "'";
 		}
 		return output;
 		
