@@ -17,11 +17,11 @@ import java.util.List;
 public class QuestionViewController {
     // Autowired enables Control to connect HTML and POJO Object to database easily for CRUD
     @Autowired
-    private ModelRepository repository;
+    private QuestionJpa repository;
 
     @GetMapping("/database/Question")
     public String person(Model model) {
-        List<Question> list = repository.listAll();
+        List<QuestionObject> list = repository.listAll();
         model.addAttribute("list", list);
         return "mvc/database/person";
     }
@@ -31,7 +31,7 @@ public class QuestionViewController {
         @param - Person Class
     */
     @GetMapping("/database/Questioncreate")
-    public String questionAdd(Question question) {
+    public String questionAdd(QuestionObject question) {
         return "mvc/database/personcreate";
     }
 
@@ -40,13 +40,12 @@ public class QuestionViewController {
     @param - BindingResult object
      */
     @PostMapping("/database/Qersoncreate")
-    public String questionSave(@Valid Question question, BindingResult bindingResult) {
+    public String questionSave(@Valid QuestionObject question, BindingResult bindingResult) {
         // Validation of Decorated PersonForm attributes
         if (bindingResult.hasErrors()) {
             return "mvc/database/Questioncreate";
         }
         repository.save(question);
-        repository.addRoleToPerson(question.getEmail(), "ROLE_STUDENT");
         // Redirect to next step
         return "redirect:/database/question";
     }
