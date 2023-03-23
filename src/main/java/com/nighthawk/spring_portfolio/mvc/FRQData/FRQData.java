@@ -1,7 +1,16 @@
-package com.nighthawk.spring_portfolio.mvc.generics;
+package com.nighthawk.spring_portfolio.mvc.FRQData;
 
+import com.nighthawk.spring_portfolio.mvc.generics.Generics;
+import javax.persistence.*;
+
+@Entity
 public class FRQData extends Generics {
     // Class data
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     public static KeyTypes key = KeyType.description;  // static initializer
     public static void setOrder(KeyTypes key) { FRQData.key = key; }
     public enum KeyType implements KeyTypes {description, input, output}
