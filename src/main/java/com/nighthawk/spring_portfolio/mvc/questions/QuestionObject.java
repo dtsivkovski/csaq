@@ -19,7 +19,12 @@ public class QuestionObject {
     private int id;
 
     private String question;
-    private String answer;
+    private char answer;
+
+    private String opA;
+    private String opB;
+    private String opC;
+    private String opD;
 
     // Hashmap with type and result for history of calculations on the object
     @ElementCollection(fetch = FetchType.EAGER)
@@ -27,36 +32,32 @@ public class QuestionObject {
     @Column(name = "result")
     private Map<String, String> history = new HashMap<String, String>();
 
-    QuestionObject(String q, String ans) {
+    QuestionObject(String q, String optionA, String optionB, String optionC, String optionD, char ans) {
         question = q;
+        opA = optionA;
+        opB = optionB;
+        opC = optionC;
+        opD = optionD;
         answer = ans;
     }
 
-    // Puts calculations in
-    public void addQuestion(String q, String ans) {
-        history.put(q, ans);
-    }
-
-    public Map<String, String> getHistory() {
-        return history;
-    }
-
-    public String getQ() {
+    public String getQuestion() {
         return question;
     }
 
-    public String getAns() {
+    public String[] getAllAnswers() {
+        String[] answers = {opA, opB, opC, opD};
+        return answers;
+    }
+
+    public char getAnswerChar() {
         return answer;
     }
 
-    public void clearHistory() {
-        history.clear();
-    }
-
     public static void main(String[] args) {
-        QuestionObject a = new QuestionObject("What is 2 + 2? \nA: 4\nB: 3\nC: 21\nD: 1", "A");
-        System.out.println("\nQuestion: " + a.getQ());
-        System.out.println("Answer: " + a.getAns());
+        QuestionObject a = new QuestionObject("What is 2 + 2?", "6", "8", "1", "4", 'D');
+        System.out.println("Question: " + a.getQuestion());
+        System.out.println("Answer: " + a.getAnswer());
         System.out.println("History: " + a.getHistory());
     }
 }
