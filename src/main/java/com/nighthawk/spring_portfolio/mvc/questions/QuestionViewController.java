@@ -1,7 +1,5 @@
 package com.nighthawk.spring_portfolio.mvc.questions;
 
-import com.nighthawk.spring_portfolio.mvc.ModelRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
