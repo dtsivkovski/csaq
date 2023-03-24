@@ -19,65 +19,64 @@ public class QuestionViewController {
     @Autowired
     private QuestionJpa repository;
 
-    @GetMapping("/database/Question")
+    @GetMapping("/database/question")
     public String person(Model model) {
-        List<QuestionObject> list = repository.listAll();
+        List<QuestionObject> list = repository.findAll();
         model.addAttribute("list", list);
-        return "mvc/database/person";
+        return "mvc/database/question";
     }
 
     /*  The HTML template Forms and PersonForm attributes are bound
         @return - template for person form
         @param - Person Class
     */
-    @GetMapping("/database/Questioncreate")
+    @GetMapping("/database/questioncreate")
     public String questionAdd(QuestionObject question) {
-        return "mvc/database/personcreate";
+        return "mvc/database/questioncreate";
     }
 
     /* Gathers the attributes filled out in the form, tests for and retrieves validation error
     @param - Person object with @Valid
     @param - BindingResult object
      */
-    @PostMapping("/database/Qersoncreate")
+    @PostMapping("/database/questioncreate")
     public String questionSave(@Valid QuestionObject question, BindingResult bindingResult) {
         // Validation of Decorated PersonForm attributes
         if (bindingResult.hasErrors()) {
-            return "mvc/database/Questioncreate";
+            return "mvc/database/questioncreate";
         }
         repository.save(question);
         // Redirect to next step
         return "redirect:/database/question";
     }
 
-    @GetMapping("/database/personupdate/{id}")
+    @GetMapping("/database/questionupdate/{id}")
     public String personUpdate(@PathVariable("id") int id, Model model) {
-        model.addAttribute("question", repository.get(id));
+        model.addAttribute("question", repository.getOne(id));
         return "mvc/database/questionupdate";
     }
 
-    @PostMapping("/database/personupdate")
-    public String personUpdateSave(@Valid Person person, BindingResult bindingResult) {
+    @PostMapping("/database/questionupdate")
+    public String personUpdateSave(@Valid QuestionObject question, BindingResult bindingResult) {
         // Validation of Decorated PersonForm attributes
         if (bindingResult.hasErrors()) {
-            return "mvc/database/personupdate";
+            return "mvc/database/questionupdate";
         }
-        repository.save(person);
-        repository.addRoleToPerson(person.getEmail(), "ROLE_STUDENT");
+        repository.save(question);
 
         // Redirect to next step
-        return "redirect:/database/person";
+        return "redirect:/database/question";
     }
 
-    @GetMapping("/database/persondelete/{id}")
-    public String personDelete(@PathVariable("id") long id) {
-        repository.delete(id);
-        return "redirect:/database/person";
+    @GetMapping("/database/questiondelete/{id}")
+    public String questionDelete(@PathVariable("id") Integer id) {
+        repository.deleteById(id);
+        return "redirect:/database/question";
     }
 
-    @GetMapping("/database/person/search")
-    public String person() {
-        return "mvc/database/person_search";
+    @GetMapping("/database/question/search")
+    public String question() {
+        return "mvc/database/question_search";
     }
 
 }

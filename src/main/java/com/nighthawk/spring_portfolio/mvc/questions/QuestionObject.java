@@ -16,6 +16,8 @@ import javax.persistence.*;
 public class QuestionObject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
     private String question;
     private String answer;
 
