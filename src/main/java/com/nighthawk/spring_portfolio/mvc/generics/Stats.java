@@ -64,7 +64,7 @@ public class Stats extends Generics {
 		return new Stats[]{
 				new Stats(2010, 23, 3, 3, 9, 8),
 				new Stats(2017, 33, 7, 9, 8, 9), 
-				new Stats(2021, 20, 5, 9, 4, 2),
+				new Stats(2021, 20, 5, 8, 5, 2),
 				new Stats(2015, 26, 7, 8, 6, 5),
 		};
 	}
