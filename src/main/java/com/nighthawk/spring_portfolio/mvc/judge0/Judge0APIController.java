@@ -60,8 +60,18 @@ public class Judge0APIController {
         // System.out.println(responseData.get("token"));
     }
 
-    /*
+    
     private String pollSubmissionStatus(String submissionId) throws IOException {
+//       HttpRequest request = HttpRequest.newBuilder()
+// 		.uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions/2e979232-92fd-4012-97cf-3e9177257d10?base64_encoded=true&fields=*"))
+// 		.header("X-RapidAPI-Key", "SIGN-UP-FOR-KEY")
+// 		.header("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com")
+// 		.method("GET", HttpRequest.BodyPublishers.noBody())
+// 		.build();
+// HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+// System.out.println(response.body());
+        
+        
         while (true) {
             HttpGet request = new HttpGet(API_URL + "submissions/" + submissionId + "?base64_encoded=true");
     
@@ -74,6 +84,7 @@ public class Judge0APIController {
             Map<String, Object> status = (Map<String, Object>) responseData.get("status");
             String description = (String) status.get("description");
 
+            
             // String status = responseData.get("status").getAsJsonObject().get("description").getAsString();
 
     
@@ -97,7 +108,7 @@ public class Judge0APIController {
             }
         }
     }
-    */
+    
 
     public static void main(String[] args) {
         try {
