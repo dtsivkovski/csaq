@@ -53,7 +53,7 @@ public class Sport extends Generics {
 	// Test data initializer
 	public static Sport[] sports() {
 		return new Sport[]{
-				new Sport( "Cristiano Ronaldo", "Al Nassr FC", 38,  1985),
+				new Sport( "Cristian Ronald ", "Al Nassr FC", 38,  1985),
                 new Sport( "Tom Brady", "Buccaneers", 45, 1977),   
                 new Sport( "Lebron James", "Lakers", 38,  1984)    
 		};

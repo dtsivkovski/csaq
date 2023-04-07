@@ -22,7 +22,7 @@ public class Review extends Generics {
 	 */
 	public Review(int year, int problem, int rating, String interactivity, String questions)
 	{
-		super.setType("Review");
+		super.setType("Review ");
 		this.year = year;
 		this.problem = problem;
 		this.rating = rating;

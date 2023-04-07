@@ -25,17 +25,22 @@ public class QuestionApiController {
     }
     
     @GetMapping("/get/")
-    public ResponseEntity<List<QuestionObject>> getStatsObjects() {
+    public ResponseEntity<List<QuestionObject>> getQuestionObjects() {
         // Get user's objects by userid
         return new ResponseEntity<>(repository.findByowner(getUserName()), HttpStatus.OK);
     }
 
     // POST method to create object
     @PostMapping("/create") 
-    public ResponseEntity<List<QuestionObject>> createStatsObject(@RequestParam("question") String question, @RequestParam("answer") String answer) {
+    public ResponseEntity<List<QuestionObject>> createQuestionObject(@RequestParam("question") String question, 
+        @RequestParam("optionA") String optionA, 
+        @RequestParam("optionB") String optionB, 
+        @RequestParam("optionC") String optionC, 
+        @RequestParam("optionD") String optionD, 
+        @RequestParam("answer") char answer) {
         // Create new object and save to repo
         String username = getUserName();
-        QuestionObject a = new QuestionObject(question, answer);
+        QuestionObject a = new QuestionObject(question, optionA, optionB, optionC, optionD, answer);
         repository.save(a);
         return new ResponseEntity<>(repository.findByowner(username), HttpStatus.OK);
     }

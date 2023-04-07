@@ -50,6 +50,7 @@ public class FRQData extends Generics {
         return output;
     }
 
+
     // Test data initializer
     public static FRQData[] frqs() {
         return new FRQData[]{
@@ -59,6 +60,7 @@ public class FRQData extends Generics {
         };
     }
 
+    
     /* main to test FRQData class */
     public static void main(String[] args) {
         // Inheritance Hierarchy
