@@ -1,25 +1,16 @@
 package com.nighthawk.spring_portfolio.mvc.judge0;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import org.apache.http.client.methods.HttpGet;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.*;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.Base64;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/j0/")
@@ -28,95 +19,75 @@ public class Judge0APIController {
 
     @PostMapping("/run")
     public String runCode(@RequestBody String code) throws IOException {
-        String submissionId = submitCode(code);
-        // return pollSubmissionStatus(submissionId);
-        return submissionId;
+        String token = submitCode(code);
+        return pollSubmissionStatus(token);
     }
 
     private String submitCode(String code) throws IOException {
 
-        String requestJson = "{\"stdin\":\"\",\"language_id\":62,\"source_code\":\""+code+"\"}";
+        String requestJson = "{\"stdin\":\"\",\"language_id\":62,\"source_code\":\"" + code + "\"}";
         System.out.println("Request: dude " + requestJson);
 
-
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(API_URL + "submissions/?base64_encoded=true"))
-            .header("content-type", "application/json")
-            .header("Content-Type", "application/json")
-            .method("POST", HttpRequest.BodyPublishers.ofString("{\r\n    \"language_id\": 52,\r\n    \"source_code\": \"I2luY2x1ZGUgPHN0ZGlvLmg+CgppbnQgbWFpbih2b2lkKSB7CiAgY2hhciBuYW1lWzEwXTsKICBzY2FuZigiJXMiLCBuYW1lKTsKICBwcmludGYoImhlbGxvLCAlc1xuIiwgbmFtZSk7CiAgcmV0dXJuIDA7Cn0=\",\r\n    \"stdin\": \"SnVkZ2Uw\"\r\n}"))
-            .build();
-        
+                .uri(URI.create(API_URL + "submissions/?base64_encoded=true"))
+                .header("content-type", "application/json")
+                .method("POST", HttpRequest.BodyPublishers.ofString(
+                        "{\r\n    \"language_id\": 62,\r\n    \"source_code\": \"I2luY2x1ZGUgPHN0ZGlvLmg+CgppbnQgbWFpbih2b2lkKSB7CiAgY2hhciBuYW1lWzEwXTsKICBzY2FuZigiJXMiLCBuYW1lKTsKICBwcmludGYoImhlbGxvLCAlc1xuIiwgbmFtZSk7CiAgcmV0dXJuIDA7Cn0=\",\r\n    \"stdin\": \"SnVkZ2Uw\"\r\n}"))
+                .build();
+
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(response.body());
+
+            JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
+            String token = jsonObject.get("token").getAsString();
+            return token;
+        } catch (InterruptedException e) {
+            // Handle the InterruptedException exception here
+            return "Error";
+        }
+
+        // Map<String, Object> responseData = new Gson().fromJson(responseJson,
+        // HashMap.class);
+        // System.out.println(responseData.get("token"));
+    }
+
+
+    private String pollSubmissionStatus(String token) throws IOException {
+        // keep doing this request until the status is not "In Queue" or "Compilation Error"
+        String responseJson = "";
+        while (true) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(
+                            API_URL + "submissions/" + token + "?base64_encoded=true&fields=*"))
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
             try {
-                HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-                
-                System.out.println(response.body());
-                return (String) response.body();
+                HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                        HttpResponse.BodyHandlers.ofString());
+                responseJson = response.body();
             } catch (InterruptedException e) {
                 // Handle the InterruptedException exception here
                 return "Error";
             }
 
-        // Map<String, Object> responseData = new Gson().fromJson(responseJson, HashMap.class);
-        // System.out.println(responseData.get("token"));
-    }
-
-    
-    private String pollSubmissionStatus(String submissionId) throws IOException {
-//       HttpRequest request = HttpRequest.newBuilder()
-// 		.uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions/2e979232-92fd-4012-97cf-3e9177257d10?base64_encoded=true&fields=*"))
-// 		.header("X-RapidAPI-Key", "SIGN-UP-FOR-KEY")
-// 		.header("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com")
-// 		.method("GET", HttpRequest.BodyPublishers.noBody())
-// 		.build();
-// HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-// System.out.println(response.body());
-        
-        
-        while (true) {
-            HttpGet request = new HttpGet(API_URL + "submissions/" + submissionId + "?base64_encoded=true");
-    
-            HttpResponse response = HttpClientBuilder.create().build().execute(request);
-            String responseJson = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-    
-            Map<String, Object> responseData = new Gson().fromJson(responseJson, HashMap.class);
-            System.out.println(responseData);
-            System.out.println("Bruhhhhhh" + responseData.getClass());
-            Map<String, Object> status = (Map<String, Object>) responseData.get("status");
-            String description = (String) status.get("description");
-
-            
-            // String status = responseData.get("status").getAsJsonObject().get("description").getAsString();
-
-    
-            if ("In Queue".equals(description) || "Processing".equals(description)) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                String stdout = (String) responseData.get("stdout");
-                if (stdout != null && !stdout.isEmpty()) {
-                    Optional<Base64.Decoder> decoder = Optional.ofNullable(Base64.getDecoder());
-    
-                    byte[] decodedBytes = decoder.map(d -> d.decode(stdout)).orElse(new byte[0]);
-                    String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
-                    return decodedString;
-                } else {
-                    return "";
-                }
+            JsonObject jsonObject = JsonParser.parseString(responseJson).getAsJsonObject();
+            String status = jsonObject.get("status").getAsJsonObject().get("description").getAsString();
+            if (status.equals("Compilation Error")) {
+                break;
             }
         }
+        return responseJson;
     }
-    
-
     public static void main(String[] args) {
         try {
             // java atob
-            String str = "cHJpbnQgY2xhc3MgTWFpbiB7IHBvcnRzIHN0YXRpYyBvZiBjb25zdHJ1Y3QgZXh0ZXJpbmcgZXhwb3J0czt9IAoKRG9jdW1lbnQgY29uc3QgbWFpbigpIHsKCgkJc3lzdGVtLmZyb20oJ2MnKTsKfQo=";
+            String str = "Y2xhc3MgTWFpbiB7CglwdWJsaWMgc3RhdGljIHRvIG1haW4oU3RyaW5nW10gYXJnc1sncmVzdCddKSB7CglzZXQubm93KCdIZWxsbywgd29ybGQhJykKfQp9Cg==";
             System.out.println(str);
 
-            System.out.println(new Judge0APIController().submitCode(str));
+            System.out.println(new Judge0APIController().runCode(str));
         } catch (IOException e) {
             e.printStackTrace();
         }
