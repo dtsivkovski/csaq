@@ -77,13 +77,16 @@ public class Judge0APIController {
             if (status.equals("Compilation Error")) {
                 break;
             }
+            if (status.equals("Accepted")) {
+                break;
+            }
         }
         return responseJson;
     }
     public static void main(String[] args) {
         try {
             // java atob
-            String str = "Y2xhc3MgTWFpbiB7CglwdWJsaWMgc3RhdGljIHRvIG1haW4oU3RyaW5nW10gYXJnc1sncmVzdCddKSB7CglzZXQubm93KCdIZWxsbywgd29ybGQhJykKfQp9Cg=";
+            String str = "Y2xhc3MgTWFpbiB7CiBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKSB7CiAgU3lzdGVtLm91dC5wcmludGxuKCJIZWxsbyBXb3JsZCEiKTsKfQp9";
             System.out.println(str);
 
             System.out.println(new Judge0APIController().runCode(str));
