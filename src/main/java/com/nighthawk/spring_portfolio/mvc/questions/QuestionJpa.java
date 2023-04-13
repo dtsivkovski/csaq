@@ -9,5 +9,5 @@ public interface QuestionJpa extends JpaRepository<QuestionObject, Integer> {
     // JPA has many built in methods, these few have been prototyped for this application
     // void save(StatsObject pobj);
     // List<PhysObject> findAllByOrderByuserIDAsc();
-    List<QuestionObject> findByowner(String username);
+    // List<QuestionObject> findByowner(String username);
 }

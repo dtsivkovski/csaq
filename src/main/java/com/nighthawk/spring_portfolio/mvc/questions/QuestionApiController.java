@@ -23,28 +23,28 @@ public class QuestionApiController {
         String username = authentication.getName();
         return username;
     }
-    
-    @GetMapping("/get/")
-    public ResponseEntity<List<QuestionObject>> getQuestionObjects() {
-        // Get user's objects by userid
-        return new ResponseEntity<>(repository.findByowner(getUserName()), HttpStatus.OK);
-    }
+
+    // @GetMapping("/get/")
+    // public ResponseEntity<List<QuestionObject>> getQuestionObjects() {
+    //     // Get user's objects by userid
+    //     return new ResponseEntity<>(repository.findByowner(getUserName()), HttpStatus.OK);
+    // }
 
     // POST method to create object
-    @PostMapping("/create") 
-    public ResponseEntity<List<QuestionObject>> createQuestionObject(@RequestParam("question") String question, 
-        @RequestParam("optionA") String optionA, 
-        @RequestParam("optionB") String optionB, 
-        @RequestParam("optionC") String optionC, 
-        @RequestParam("optionD") String optionD, 
-        @RequestParam("answer") char answer) {
-        // Create new object and save to repo
-        String username = getUserName();
-        QuestionObject a = new QuestionObject(question, optionA, optionB, optionC, optionD, answer);
-        repository.save(a);
-        return new ResponseEntity<>(repository.findByowner(username), HttpStatus.OK);
-    }
-    
+    // @PostMapping("/create")
+    // public ResponseEntity<List<QuestionObject>> createQuestionObject(@RequestParam("question") String question,
+    //     @RequestParam("optionA") String optionA,
+    //     @RequestParam("optionB") String optionB,
+    //     @RequestParam("optionC") String optionC,
+    //     @RequestParam("optionD") String optionD,
+    //     @RequestParam("answer") char answer) {
+    //     // Create new object and save to repo
+    //     String username = getUserName();
+    //     QuestionObject a = new QuestionObject(question, optionA, optionB, optionC, optionD, answer);
+    //     repository.save(a);
+    //     return new ResponseEntity<>(repository.findByowner(username), HttpStatus.OK);
+    // }
+
 
     // @GetMapping("/scrub/{objectID}")
     // public ResponseEntity<QuestionObject> scrub(@PathVariable int objectID) {
