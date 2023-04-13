@@ -1,9 +1,10 @@
 package com.nighthawk.spring_portfolio.mvc.judge0;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/j0/")
@@ -18,7 +21,8 @@ public class Judge0APIController {
     private static final String API_URL = "http://34.205.167.218:2358/";
 
     @PostMapping("/run")
-    public String runCode(@RequestBody String code) throws IOException {
+    public String runCode(@RequestBody final Map<String, Object> map) throws IOException {
+        String code = (String) map.get("code");
         String token = submitCode(code);
         return pollSubmissionStatus(token);
     }
@@ -94,8 +98,10 @@ public class Judge0APIController {
             // java atob
             String str = "Y2xhc3MgTWFpbiB7CiBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKSB7CiAgU3lzdGVtLm91dC5wcmludGxuKCJIZWxsbyBXb3JsZCEiKTsKfQp9";
             System.out.println(str);
-
-            System.out.println(new Judge0APIController().runCode(str));
+            // create map to pass in runCode
+            Map<String, Object> map = new HashMap<>();
+            map.put("code", str);
+            System.out.println(new Judge0APIController().runCode(map));
         } catch (IOException e) {
             e.printStackTrace();
         }
