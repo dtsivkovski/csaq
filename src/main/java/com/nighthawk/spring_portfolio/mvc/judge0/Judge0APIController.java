@@ -81,7 +81,13 @@ public class Judge0APIController {
                 break;
             }
         }
-        return responseJson;
+        // return the responseJson with the key of stdout
+        JsonObject jsonObject = JsonParser.parseString(responseJson).getAsJsonObject();
+        String stdout = jsonObject.get("stdout").getAsString();
+        stdout = stdout.replaceAll("\n", "");
+        stdout = stdout.replaceAll("=", "");
+        stdout = new String(java.util.Base64.getDecoder().decode(stdout));
+        return stdout;
     }
     public static void main(String[] args) {
         try {
