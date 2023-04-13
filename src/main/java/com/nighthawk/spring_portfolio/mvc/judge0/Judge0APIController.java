@@ -31,8 +31,7 @@ public class Judge0APIController {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "submissions/?base64_encoded=true"))
                 .header("content-type", "application/json")
-                .method("POST", HttpRequest.BodyPublishers.ofString(
-                        "{\r\n    \"language_id\": 62,\r\n    \"source_code\": \"I2luY2x1ZGUgPHN0ZGlvLmg+CgppbnQgbWFpbih2b2lkKSB7CiAgY2hhciBuYW1lWzEwXTsKICBzY2FuZigiJXMiLCBuYW1lKTsKICBwcmludGYoImhlbGxvLCAlc1xuIiwgbmFtZSk7CiAgcmV0dXJuIDA7Cn0=\",\r\n    \"stdin\": \"SnVkZ2Uw\"\r\n}"))
+                .method("POST", HttpRequest.BodyPublishers.ofString(requestJson))
                 .build();
 
         try {
@@ -84,7 +83,7 @@ public class Judge0APIController {
     public static void main(String[] args) {
         try {
             // java atob
-            String str = "Y2xhc3MgTWFpbiB7CglwdWJsaWMgc3RhdGljIHRvIG1haW4oU3RyaW5nW10gYXJnc1sncmVzdCddKSB7CglzZXQubm93KCdIZWxsbywgd29ybGQhJykKfQp9Cg==";
+            String str = "Y2xhc3MgTWFpbiB7CglwdWJsaWMgc3RhdGljIHRvIG1haW4oU3RyaW5nW10gYXJnc1sncmVzdCddKSB7CglzZXQubm93KCdIZWxsbywgd29ybGQhJykKfQp9Cg=";
             System.out.println(str);
 
             System.out.println(new Judge0APIController().runCode(str));
