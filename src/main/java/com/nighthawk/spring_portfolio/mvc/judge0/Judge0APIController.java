@@ -79,7 +79,11 @@ public class Judge0APIController {
             JsonObject jsonObject = JsonParser.parseString(responseJson).getAsJsonObject();
             String status = jsonObject.get("status").getAsJsonObject().get("description").getAsString();
             if (status.equals("Compilation Error")) {
-                break;
+                // return the compilation error
+                JsonObject compile_output = JsonParser.parseString(responseJson).getAsJsonObject();
+                String compile_output_str = compile_output.get("compile_output").getAsString();
+                compile_output_str = new String(java.util.Base64.getDecoder().decode(compile_output_str));
+                return compile_output_str;
             }
             if (status.equals("Accepted")) {
                 break;
